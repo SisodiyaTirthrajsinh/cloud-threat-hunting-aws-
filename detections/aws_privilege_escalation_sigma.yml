@@ -1,0 +1,19 @@
+title: AWS IAM Privilege Escalation (Admin Policy Attached)
+id: 789e1234-e56b-78c9-a123-426614174222
+status: experimental
+description: Detects when a user attaches AdministratorAccess policy to themselves or another account
+author: Tirthraj Sisodiya
+logsource:
+  service: cloudtrail
+detection:
+  selection:
+    eventName: "AttachUserPolicy"
+    requestParameters.policyArn: "arn:aws:iam::aws:policy/AdministratorAccess"
+  condition: selection
+fields:
+  - eventTime
+  - userIdentity.userName
+  - sourceIPAddress
+falsepositives:
+  - Legitimate policy changes by cloud admins
+level: critical

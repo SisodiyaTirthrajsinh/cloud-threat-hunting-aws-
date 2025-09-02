@@ -1,0 +1,18 @@
+title: AWS IAM Access Key Creation (Possible Persistence)
+id: 456e7890-e12b-34d5-a678-426614174111
+status: experimental
+description: Detects new AWS IAM access key creation which may indicate persistence
+author: Tirthraj Sisodiya
+logsource:
+  service: cloudtrail
+detection:
+  selection:
+    eventName: "CreateAccessKey"
+  condition: selection
+fields:
+  - eventTime
+  - userIdentity.userName
+  - sourceIPAddress
+falsepositives:
+  - Legitimate key creation by admin
+level: high
